@@ -1,0 +1,7 @@
+[package]
+name = "rusty-hatchet-tasks"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cot = { version = "0.6.0", features = ["full"] }

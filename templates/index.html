@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rusty Hatchet and Cot</title>
+        <link href="{{ static_files.url_for("css/main.css")? }}" rel="stylesheet">
+    </head>
+    <body>
+      <section class="section">
+        <div class="container">
+          <div class="column is-two-thirds">
+            <h1 class="title">Rusty Hatchet and Cot</h1>
+            <hr><br>
+            <div>
+              <h2 class="title is-2">Tasks</h2>
+              <h3>Choose a task length:</h3>
+              <div class="field is-grouped">
+                <p class="control">
+                  <button class="button is-primary" data-type="1">Short</button>
+                  <button class="button is-primary" data-type="2">Medium</button>
+                  <button class="button is-primary" data-type="3">Long</button>
+                </p>
+              </div>
+            </div>
+            <br><br>
+            <div>
+              <h2 class="title is-2">Task Status</h2>
+              <br>
+              <table class="table is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Result</th>
+                  </tr>
+                </thead>
+                <tbody id="tasks">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      <script type="text/javascript" src="{{ static_files.url_for("js/main.js")? }}"></script>
+    </body>
+</html>
