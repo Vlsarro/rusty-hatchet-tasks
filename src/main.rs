@@ -5,7 +5,9 @@ use cot::auth::db::DatabaseUserApp;
 use cot::cli::CliMetadata;
 use cot::db::migrations::SyncDynMigration;
 use cot::middleware::{AuthMiddleware, LiveReloadMiddleware, SessionMiddleware};
+use cot::openapi::swagger_ui::SwaggerUi;
 use cot::project::{MiddlewareContext, RegisterAppsContext, RootHandler, RootHandlerBuilder};
+use cot::router::method::openapi::{api_get, api_post};
 use cot::router::{Route, Router};
 use cot::session::db::SessionApp;
 use cot::static_files::{StaticFile, StaticFilesMiddleware};
@@ -25,11 +27,16 @@ impl App for RustyHatchetTasksApp {
     fn router(&self) -> Router {
         Router::with_urls([
             Route::with_handler_and_name("/", handlers::index, "index"),
-            Route::with_handler_and_name("/run_task", handlers::run_task, "run_task"),
-            Route::with_handler_and_name(
-                "/get_task_status/{task_id}",
-                handlers::get_task_status,
-                "get_task_status",
+            Route::with_handler_and_name("/tasks", handlers::tasks, "tasks"),
+            Route::with_api_handler_and_name(
+                "/api/tasks",
+                api_post(handlers::create_task),
+                "create_task",
+            ),
+            Route::with_api_handler_and_name(
+                "/api/tasks/{task_id}",
+                api_get(handlers::get_task),
+                "get_task",
             ),
         ])
     }
@@ -47,6 +54,7 @@ impl Project for RustyHatchetTasksProject {
     }
 
     fn register_apps(&self, apps: &mut AppBuilder, _context: &RegisterAppsContext) {
+        apps.register_with_views(SwaggerUi::new(), "/swagger");
         apps.register_with_views(RustyHatchetTasksApp, "");
         apps.register(DatabaseUserApp::new());
         apps.register(SessionApp::new());
